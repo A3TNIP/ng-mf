@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@ng-mf/data-access-user": ["libs/data-access-user/src/index.ts"],
+      "login/Module": ["apps/login/src/app/remote-entry/entry.module.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
