@@ -1,7 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from "@ng-mf/data-access-user";
+import {ActionDispatcher, UserService} from "@ng-mf/data-access-user";
 import {Router} from "@angular/router";
-import {distinctUntilChanged} from "rxjs";
+import {distinctUntilChanged, map, Observable} from "rxjs";
+import {Store} from "@ngrx/store";
+import {loaderSelector} from "./loader/store/loader.selectors";
+import {AppStateInterface} from "./loader/state/app.state.interface";
 
 @Component({
   selector: 'ng-mf-root',
@@ -10,7 +13,16 @@ import {distinctUntilChanged} from "rxjs";
 })
 export class AppComponent implements OnInit {
   isLoggedIn$ = this.userService.isUserLoggedIn$;
-  constructor(private userService: UserService, private router: Router) {}
+  isLoading$: Observable<boolean>;
+  loadingMessage$: Observable<string>;
+  constructor(private userService: UserService, private router: Router,
+              private actionDispatcher: ActionDispatcher,
+              private store: Store<AppStateInterface>
+
+  ) {
+    this.isLoading$ = this.store.select(loaderSelector).pipe(map(x => x.isLoading));
+    this.loadingMessage$ = this.store.select(loaderSelector).pipe(map(x => x.message));
+  }
   ngOnInit() {
     this.isLoggedIn$
       .pipe(distinctUntilChanged())
@@ -24,5 +36,12 @@ export class AppComponent implements OnInit {
           }
         });
       });
+    this.actionDispatcher.getCurrentAction()
+      .subscribe({
+        next: (action) => {
+          console.log("Action dispatched", action.type)
+          this.store.dispatch(action);
+        },
+      })
   }
 }

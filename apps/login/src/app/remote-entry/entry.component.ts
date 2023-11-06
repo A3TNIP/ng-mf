@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {UserService} from "@ng-mf/data-access-user";
+import {Component, inject, OnInit} from '@angular/core';
+import {ActionDispatcher, setLoader, UserService} from "@ng-mf/data-access-user";
 
 @Component({
   selector: 'ng-mf-login-entry',
@@ -38,12 +38,18 @@ import {UserService} from "@ng-mf/data-access-user";
     `,
   ]
 })
-export class RemoteEntryComponent {
+export class RemoteEntryComponent implements OnInit{
   username = '';
   password = '';
   isLoggedIn$ = this.userService.isUserLoggedIn$;
   constructor(private userService: UserService) {}
   login() {
     this.userService.checkCredentials(this.username, this.password);
+  }
+  actionDispatcher: ActionDispatcher = inject(ActionDispatcher);
+
+  ngOnInit() {
+    console.log("Logs to check")
+    this.actionDispatcher.dispatch(setLoader({ message: 'Loader Works!' }));
   }
 }
