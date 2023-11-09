@@ -3,7 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/data-access-user/src",
   "prefix": "ng-mf",
-  "tags": [],
+  "tags": ["scope:data-access-user", "type:lib"],
   "projectType": "library",
   "targets": {
     "test": {

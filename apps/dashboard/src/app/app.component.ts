@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ActionDispatcher, UserService} from "@ng-mf/data-access-user";
+import {ActionDispatcher, setLoader, UserService} from "@ng-mf/data-access-user";
 import {Router} from "@angular/router";
 import {distinctUntilChanged, map, Observable} from "rxjs";
 import {Store} from "@ngrx/store";
 import {loaderSelector} from "./loader/store/loader.selectors";
 import {AppStateInterface} from "./loader/state/app.state.interface";
+import {ofType} from "@ngrx/effects";
 
 @Component({
   selector: 'ng-mf-root',
@@ -37,6 +38,9 @@ export class AppComponent implements OnInit {
         });
       });
     this.actionDispatcher.getCurrentAction()
+      .pipe(
+        ofType(setLoader),
+      )
       .subscribe({
         next: (action) => {
           console.log("Action dispatched", action.type)

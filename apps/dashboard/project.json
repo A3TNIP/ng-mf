@@ -4,7 +4,11 @@
   "projectType": "application",
   "prefix": "ng-mf",
   "sourceRoot": "apps/dashboard/src",
-  "tags": [],
+  "tags": ["scope:dashboard", "type:app"],
+  "implicitDependencies": [
+    "shared",
+    "data-access-user"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",

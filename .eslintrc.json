@@ -10,11 +10,11 @@
           "error",
           {
             "enforceBuildableLibDependency": true,
-            "allow": [],
+            "allow": ["@ng-mf/data-access-user"],
             "depConstraints": [
               {
-                "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "sourceTag": "scope:dashboard",
+                "onlyDependOnLibsWithTags": ["scope:data-access-user"]
               }
             ]
           }
